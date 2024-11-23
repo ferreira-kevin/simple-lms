@@ -1,0 +1,71 @@
+﻿@page "/uploadactivity"
+@inject NavigationManager Navigation
+@using Microsoft.AspNetCore.Components.Forms
+
+<h3>Atividade</h3>
+
+<!-- Pergunta da Atividade -->
+<p>@activityQuestion</p>
+
+<!-- Campo de Upload de Arquivo -->
+<div>
+    <InputFile OnChange="HandleFileSelected" />
+</div>
+
+<!-- Botão para Enviar a Resposta -->
+<button @onclick="SubmitActivity" disabled="@isSubmitDisabled">Enviar Resposta</button>
+
+@if (isSubmitted)
+{
+    <p>Atividade enviada com sucesso!</p>
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <p style="color: red;">@errorMessage</p>
+}
+
+@code {
+    private string activityQuestion = "Descreva a importância da extensão universitária para o desenvolvimento da comunidade.";
+    private bool isSubmitted = false;
+    private bool isSubmitDisabled = true;
+    private string errorMessage;
+    private IBrowserFile selectedFile;
+
+    // Evento para capturar o arquivo selecionado
+    private void HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.File;  // Corrige o erro no tipo do arquivo
+        isSubmitDisabled = selectedFile == null;  // Desativa o botão se não houver arquivo selecionado
+    }
+
+    // Método para enviar a atividade
+    private async Task SubmitActivity()
+    {
+        if (selectedFile != null)
+        {
+            try
+            {
+                var fileName = selectedFile.Name;
+
+                // Carregar o arquivo (simulando um upload)
+                using var stream = selectedFile.OpenReadStream();
+                var fileBytes = new byte[selectedFile.Size];
+                await stream.ReadAsync(fileBytes, 0, (int)selectedFile.Size);
+
+                // Simula o upload bem-sucedido
+                isSubmitted = true;
+                isSubmitDisabled = true;
+                errorMessage = null;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = $"Erro ao enviar o arquivo: {ex.Message}";
+            }
+        }
+        else
+        {
+            errorMessage = "Nenhum arquivo foi selecionado.";
+        }
+    }
+}

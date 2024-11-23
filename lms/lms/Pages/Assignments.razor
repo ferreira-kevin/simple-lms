@@ -1,0 +1,70 @@
+﻿@page "/assignments"
+@using lms.Domain
+@using lms.UseCases.Student.Assignments
+@inject IListAssignments _listAssignments
+
+<h3>Atividades</h3>
+
+<div>
+    <h4>Atividades Ativas</h4>
+    @if (activeAssignments.Any())
+    {
+        <ul>
+            @foreach (var assignment in activeAssignments)
+            {
+                <li>
+                    <strong>
+                        <a href="@($"/assignment/{assignment.Id}")">@assignment.Name</a>
+                    </strong>
+                    <br />Pontos: @assignment.Points | Aberto Em: @assignment.OpensAt | Fecha Em: @assignment.ClosesAt
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No active assignments.</p>
+    }
+</div>
+
+<div>
+    <h4>Atividades Passadas</h4>
+    @if (pastAssignments.Any())
+    {
+        <ul>
+            @foreach (var assignment in pastAssignments)
+            {
+                <li class="past-assignment">
+                    <strong>
+                        <a href="@($"/assignment/{assignment.Id}")">@assignment.Name</a>
+                    </strong>
+                    <br />Pontos: @assignment.Points | Fechado Em: @assignment.ClosesAt
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>Sem atividades passadas.</p>
+    }
+</div>
+
+
+@code {
+    private List<AssignmentModel> activeAssignments = new();
+    private List<AssignmentModel> pastAssignments = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var allAssignments = await _listAssignments.Execute();
+        var currentDateTime = DateTime.UtcNow;
+
+        activeAssignments = allAssignments
+            .Where(a => a.OpensAt <= currentDateTime && a.ClosesAt >= currentDateTime)
+            .ToList();
+
+        pastAssignments = allAssignments
+            .Where(a => a.ClosesAt < currentDateTime)
+            .ToList();
+    }
+}

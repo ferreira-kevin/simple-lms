@@ -1,0 +1,153 @@
+﻿/* Título da página */
+h3 {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-family: Arial, sans-serif;
+}
+
+/* Detalhes do curso */
+.course-details {
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    .course-details h4 {
+        font-size: 1.5rem;
+        color: #4a90e2;
+        margin-bottom: 0.5rem;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .course-details p {
+        font-size: 1rem;
+        color: #666;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+/* Campo de busca de alunos */
+.student-search {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+}
+
+.student-search-input {
+    width: 50%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.search-button {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    font-family: 'Segoe UI', sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+    .search-button:hover {
+        background-color: #357abd;
+    }
+
+/* Lista de resultados de busca */
+.student-list {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+    .student-list h5 {
+        font-size: 1.25rem;
+        color: #333;
+        margin-bottom: 1rem;
+        font-family: Arial, sans-serif;
+    }
+
+    .student-list ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .student-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f1f1f1;
+        padding: 0.5rem;
+        border-radius: 4px;
+        margin-bottom: 0.5rem;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+.add-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 0.3rem 0.6rem;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    transition: background-color 0.3s ease;
+}
+
+    .add-button:hover {
+        background-color: #3e8e41;
+    }
+
+/* Lista de alunos inscritos */
+.added-students {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+    .added-students h5 {
+        font-size: 1.25rem;
+        color: #333;
+        margin-bottom: 1rem;
+        font-family: Arial, sans-serif;
+    }
+
+    .added-students ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .added-students li {
+        background-color: #e6e6e6;
+        padding: 0.5rem;
+        border-radius: 4px;
+        margin-bottom: 0.5rem;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+/* Botão voltar */
+.back-button {
+    background-color: #777;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 1.5rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Segoe UI', sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+    .back-button:hover {
+        background-color: #555;
+    }

@@ -1,0 +1,41 @@
+﻿@page "/grades"
+@using lms.UseCases.Student.Grades
+@inject IListGrades _listGrades
+
+<h3>Notas</h3>
+
+@if (assignmentGrades is not null && assignmentGrades.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome da Atividade</th>
+                <th>Nota</th>
+                <th>Entregue Em</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var assignmentGrade in assignmentGrades)
+            {
+                <tr>
+                    <td>@assignmentGrade.AssignmentName</td>
+                    <td>@assignmentGrade.GradeValue</td>
+                    <td>@assignmentGrade.GradedAt.ToString("g")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No grades available for your assignments.</p>
+}
+
+@code {
+    private List<StudentAssignmentGradeViewModel> assignmentGrades = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        assignmentGrades = await _listGrades.Execute();
+    }
+}

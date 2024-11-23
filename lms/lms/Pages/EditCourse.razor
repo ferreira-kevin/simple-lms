@@ -1,0 +1,111 @@
+﻿@page "/courses/edit/{courseId:guid}"
+@using lms.Domain
+@using lms.UseCases.Student
+@inject NavigationManager Navigation
+@inject ICourseService CourseService
+
+@code {
+    [Parameter]
+    public Guid CourseId { get; set; }
+
+    private CourseModel course = new();
+    private bool isLoading = true;
+    private bool isSaving = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Carregar o curso baseado no ID fornecido
+        course = await CourseService.GetCourseByIdAsync(CourseId);
+        isLoading = false;
+    }
+
+    private async Task SaveCourse()
+    {
+        isSaving = true;
+        // Lógica para salvar o curso com módulos e materiais (substitua pelo seu código de persistência)
+        await CourseService.SaveCourseAsync(course);
+        isSaving = false;
+        Navigation.NavigateTo("/courses");
+    }
+
+    private void AddModule()
+    {
+        course.Modules.Add(new ModuleModel { Title = "Novo Módulo" });
+    }
+
+    private void RemoveModule(ModuleModel module)
+    {
+        course.Modules.Remove(module);
+    }
+
+    private void AddMaterial(ModuleModel module)
+    {
+        module.Materials.Add(new MaterialModel { Title = "Novo Material" });
+    }
+
+    private void RemoveMaterial(ModuleModel module, MaterialModel material)
+    {
+        module.Materials.Remove(material);
+    }
+}
+
+@if (isLoading)
+{
+    <p>Carregando curso...</p>
+}
+else
+{
+    <h1 class="page-title">Editar Curso</h1>
+
+    <div class="course-form">
+        <div class="form-group">
+            <label for="courseName">Nome do Curso:</label>
+            <input type="text" id="courseName" @bind="course.Name" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="courseDescription">Descrição:</label>
+            <textarea id="courseDescription" @bind="course.Description" class="form-control"></textarea>
+        </div>
+@* 
+        <div class="form-group">
+            <label for="courseDetails">Detalhes:</label>
+            <textarea id="courseDetails" @bind="course.Details" class="form-control"></textarea>
+        </div> *@
+
+        <h2>Módulos</h2>
+        @foreach (var module in course.Modules)
+        {
+            <div class="module-card">
+                <div class="form-group">
+                    <label for="moduleTitle">Título do Módulo:</label>
+                    <input type="text" id="moduleTitle" @bind="module.Title" class="form-control" />
+                    <button class="course-button" @onclick="() => RemoveModule(module)">Remover Módulo</button>
+                </div>
+
+                <h3>Materiais de Aula</h3>
+                @foreach (var material in module.Materials)
+                {
+                    <div class="material-card">
+                        <div class="form-group">
+                            <label for="materialTitle">Título do Material:</label>
+                            <input type="text" id="materialTitle" @bind="material.Title" class="form-control" />
+
+                            <label for="materialContent">Conteúdo:</label>
+                            <textarea id="materialContent" @bind="material.Content" class="form-control"></textarea>
+
+                            <button class="course-button" @onclick="() => RemoveMaterial(module, material)">Remover Material</button>
+                        </div>
+                    </div>
+                }
+
+                <button class="course-button" @onclick="() => AddMaterial(module)">Adicionar Material</button>
+            </div>
+        }
+
+        <button class="course-button" @onclick="AddModule">Adicionar Módulo</button>
+        <button class="course-button" @onclick="SaveCourse" disabled="@isSaving">
+            @(isSaving ? "Salvando..." : "Salvar Curso")
+        </button>
+    </div>
+}

@@ -1,0 +1,123 @@
+﻿@page "/assignment/{assignmentId:guid}"
+@using lms.Data.Repositories
+@using lms.Domain
+@using lms.Domain.Utils
+@using lms.UseCases.Student.Assignment
+@inject NavigationManager Navigation
+@inject IStartAssignment StartAssignment
+@inject INextQuestion NextQuestion
+@inject IPreviousQuestion PreviousQuestion
+@inject ISelectOption SelectOption
+@inject IFinalizeAssignment FinalizeAssignment
+@inject IAssignmentAttemptRepository assignmentAttemptRepository
+
+@if (_assignment is not null)
+{
+    @if (_assignment.ClosesAt > DateTime.Now)
+    {
+        @if (_assignmentAttempt is not null)
+        {
+            <div class="assignment-container">
+                <h3 class="assignment-title">@_assignment.Name</h3>
+                <p class="assignment-description">@_assignment.Description</p>
+
+                <div class="question-container">
+                    <p class="question-text">@_assignment.Questions?[_currentQuestionIndex].Statment</p>
+
+                    <div class="options-container">
+                        @if (@_assignment.Questions?[_currentQuestionIndex].Options is not null)
+                        {
+                            @foreach (var option in @_assignment.Questions?[_currentQuestionIndex].Options ?? [])
+                            {
+                                <div class="option">
+                                    <input type="radio" id="@option.Id" name="optionGroup" @onchange="() => OnOptionSelected(option.Id)" />
+                                    <label for="@option.Id">@option.Text</label>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                    <div class="navigation-buttons">
+                        @if (_currentQuestionIndex.IsNotFirstAndHasMoreThanOne(_questionsLength))
+                        {
+                            <button class="nav-button" @onclick="OnPreviousSelected">Anterior</button>
+                        }
+
+                        @if (_currentQuestionIndex.IsNotLastAndHasMoreThanOne(_questionsLength))
+                        {
+                            <button class="nav-button" @onclick="OnNextSelected">Próxima</button>
+                        }
+
+                        @if (_currentQuestionIndex.IsLast(_questionsLength))
+                        {
+                            <button class="submit-button" @onclick="OnSubmitAnswer">Enviar</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <button class="submit-button" @onclick="OnStartSelected">Iniciar Teste</button>
+        }
+
+}
+    else
+    {
+        <h3 class="closed-message">Atividade Fechada.</h3>
+    }
+}
+else
+{
+    <h3 class="not-found-message">Atividade não encontrada.</h3>
+}
+
+@code {
+    [Parameter]
+    public Guid AssignmentId { get; set; }
+
+    private int _currentQuestionIndex = 0;
+    private int _questionsLength = 0;
+
+    private AssignmentModel? _assignment;
+    private AssignmentAttemptModel? _assignmentAttempt;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _assignmentAttempt = await assignmentAttemptRepository.GetCurrentAssignmentAttemptAsync(AssignmentId, Guid.Empty);
+        _assignment = await StartAssignment.Execute(AssignmentId);
+        _questionsLength = _assignment?.Questions?.Count ?? 0;
+}
+
+    private async Task OnStartSelected()
+    {
+        _assignmentAttempt = new(AssignmentId, Guid.Empty, 1, true);
+
+        await assignmentAttemptRepository.AddAsync(_assignmentAttempt);
+    }
+
+    private void OnOptionSelected(Guid option)
+    {
+        SelectOption.Execute(
+            _assignmentAttempt?.Id ?? throw new InvalidOperationException(),
+            _assignment?.Questions[_currentQuestionIndex]?.Id ?? throw new InvalidOperationException(),
+            option);
+    }
+
+    private void OnNextSelected()
+    {
+        _currentQuestionIndex++;
+        // NextQuestion.Execute();
+    }
+
+    private void OnPreviousSelected()
+    {
+        _currentQuestionIndex--;
+        // PreviousQuestion.Execute();
+    }
+
+    private void OnSubmitAnswer()
+    {
+        FinalizeAssignment.Execute();
+    }
+}

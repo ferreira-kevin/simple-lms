@@ -1,0 +1,23 @@
+﻿@page "/redirect"
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity is not null && user.Identity.IsAuthenticated)
+        {
+            var uri = new Uri(Navigation.Uri);
+            var currentPath = uri.AbsolutePath;
+            if (currentPath == "/login")
+                Navigation.NavigateTo("/");
+        }
+        else
+        {
+            Navigation.NavigateTo("/login");
+        }
+    }
+}

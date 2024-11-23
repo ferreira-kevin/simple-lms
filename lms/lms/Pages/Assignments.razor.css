@@ -1,0 +1,103 @@
+﻿/* Estilos Globais */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* Título da Página */
+h3 {
+    text-align: center;
+    font-size: 2rem;
+    color: #4a90e2;
+    margin-bottom: 2rem;
+    font-weight: bold;
+}
+
+/* Subtítulos de Seções */
+h4 {
+    font-size: 1.5rem;
+    color: #4a90e2;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    text-align: left;
+    padding-left: 1rem;
+    border-left: 5px solid #4a90e2;
+}
+
+/* Listas de Atividades */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    background-color: #ffffff;
+    margin-bottom: 1rem;
+    padding: 1.2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+    li:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Links para Atividades */
+    li a {
+        color: #357abd;
+        font-size: 1.2rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+        li a:hover {
+            color: #285a8e;
+        }
+
+    /* Informações das Atividades */
+    li strong {
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    li br {
+        display: none; /* Remover quebras de linha para um visual mais limpo */
+    }
+
+    li span {
+        display: inline-block;
+        margin-right: 0.8rem;
+        font-size: 0.95rem;
+        color: #666;
+    }
+
+p {
+    font-size: 1rem;
+    color: #666;
+    text-align: center;
+    margin: 2rem 0;
+}
+
+/* Estilo para Atividades Fechadas (Passadas) */
+.past-assignment {
+    background-color: #f0f0f0; /* Cor de fundo cinza claro */
+    color: #999; /* Texto cinza para indicar atividade encerrada */
+    border: 1px solid #ddd; /* Borda sutil */
+}
+
+    .past-assignment a {
+        color: #bbb; /* Links em cinza para atividades passadas */
+        pointer-events: none; /* Desabilita clique no link */
+    }
+
+        .past-assignment a:hover {
+            color: #bbb; /* Mantém a cor mesmo ao passar o mouse */
+        }

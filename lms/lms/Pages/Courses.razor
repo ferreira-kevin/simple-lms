@@ -1,0 +1,89 @@
+﻿@page "/courses"
+@using lms.Domain
+@using lms.Providers
+@using lms.UseCases.Student
+@using static lms.Domain.Utils.Constants
+@inject NavigationManager Navigation
+@inject CustomAuthenticationService authenticationService
+@inject ICourseService CourseService
+
+<h3 class="page-title">Cursos</h3>
+@if (authenticationService.IsAdmin())
+{
+    <div class="course-card">
+        <button @onclick="() => CreateNewCourse()" class="course-button">Adicionar Novo Curso</button>
+    </div>
+}
+
+<div class="courses-container">
+    @if (courses is not null && courses.Any())
+    {
+        @foreach (var course in courses)
+        {
+            <div class="course-card">
+                <h4>@course.Name</h4>
+                <p>@course.Description</p>
+                @if (authenticationService.IsStudent())
+                {
+                    <button @onclick="() => NavigateToCourse(course.Id)" class="course-button">Acessar</button>
+                }
+
+                @if (authenticationService.IsAdmin() || authenticationService.IsTeacher())
+                {
+                    @* <button @onclick="() => ViewCourse(course.Id)" class="course-button">Visualziar</button> *@
+                    <button @onclick="() => EditCourse(course.Id)" class="course-button">Editar</button>
+                }
+
+                @if (authenticationService.IsAdmin())
+                {
+                    <button @onclick="() => AddStutents(course.Id)" class="course-button">Adicionar Alunos</button>
+                    <button @onclick="() => DeleteCourse(course.Id)" class="course-button">Deletar</button>
+                }
+            </div>
+        }
+    }
+    else
+    {
+        <p>No courses available.</p>
+    }
+</div>
+
+@code {
+    private IEnumerable<CourseModel> courses = new List<CourseModel>();
+    private string role = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        // role = authenticationService.GetUserRole();
+        if (authenticationService.IsAdmin())
+        {
+            courses = await CourseService.GetAllCoursesAsync();
+        }
+    }
+
+    private void NavigateToCourse(Guid courseId)
+    {
+        Navigation.NavigateTo($"/courses/{courseId}");
+    }
+
+    private void CreateNewCourse()
+    {
+        Navigation.NavigateTo("/courses/create");
+    }
+
+    private void EditCourse(Guid courseId)
+    {
+        Navigation.NavigateTo($"/courses/edit/{courseId}");
+    }
+
+    private void AddStutents(Guid courseId)
+    {
+        Navigation.NavigateTo($"courses/{courseId}/add-students");
+    }
+
+    private async Task DeleteCourse(Guid courseId)
+    {
+        await CourseService.DeleteAsync(courseId);
+        courses = await CourseService.GetAllCoursesAsync();
+    }
+}

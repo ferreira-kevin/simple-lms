@@ -1,0 +1,47 @@
+﻿@page "/courses/create"
+@using lms.Data.Repositories
+@using lms.Domain
+@inject NavigationManager Navigation
+@inject ICourseRepository courseRepository 
+@code {
+    private CourseModel newCourse = new CourseModel();
+    private bool isSaving = false;
+
+    private async Task SaveCourse()
+    {
+        isSaving = true;
+
+        // Lógica para salvar o curso (substitua pelo seu código de persistência)
+        // Exemplo: await CourseService.SaveCourseAsync(newCourse);
+
+        // Simulação de salvamento
+        await courseRepository.AddAsync(newCourse);
+
+        // Após salvar, redireciona para a página de lista de cursos
+        Navigation.NavigateTo("/courses");
+    }
+}
+
+<h1 class="page-title">Criar Novo Curso</h1>
+
+<div class="course-form">
+    <div class="form-group">
+        <label for="courseName">Nome do Curso:</label>
+        <input type="text" id="courseName" @bind="newCourse.Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="courseDescription">Descrição:</label>
+        <textarea id="courseDescription" @bind="newCourse.Description" class="form-control"></textarea>
+    </div>
+
+  @*   <div class="form-group">
+        <label for="courseDetails">Detalhes:</label>
+        <textarea id="courseDetails" @bind="newCourse.Details" class="form-control"></textarea>
+    </div> *@
+
+    <button @onclick="SaveCourse" class="course-button" disabled="@isSaving">
+        @(isSaving ? "Salvando..." : "Salvar Curso")
+    </button>
+</div>
+

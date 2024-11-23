@@ -1,0 +1,96 @@
+﻿@page "/courses/{courseId:guid}/add-students"
+@using lms.Domain
+@using lms.UseCases.Student
+@inject ICourseService _courseService
+@inject IStudentService _studentService
+@inject NavigationManager Navigation
+
+<h3>Adicionar Alunos ao Curso</h3>
+
+@if (course is not null)
+{
+    <div class="course-details">
+        <h4>@course.Name</h4>
+        <p>@course.Description</p>
+    </div>
+
+    <div class="student-search">
+        <input type="text" @bind="searchQuery" placeholder="Digite o nome do aluno..." class="student-search-input" />
+        <button @onclick="SearchStudents" class="search-button">Buscar</button>
+    </div>
+
+    <div class="student-list">
+        @if (searchResults.Any())
+        {
+            <h5>Resultados da Busca</h5>
+            <ul>
+                @foreach (var student in searchResults)
+                {
+                    <li>
+                        @student.User.FullName
+                        <button @onclick="() => AddStudentToCourse(student)" class="add-button">Adicionar</button>
+                    </li>
+                }
+            </ul>
+        }
+        else if (searchExecuted)
+        {
+            <p>No students found.</p>
+        }
+    </div>
+
+    <div class="added-students">
+        <h5>Alunos Inscritos</h5>
+        <ul>
+            @foreach (var student in enrolledStudents)
+            {
+                <li>@student.User.FullName</li>
+            }
+        </ul>
+    </div>
+
+    <button @onclick="GoBack" class="back-button">Voltar</button>
+}
+else
+{
+    <p>Loading course details...</p>
+}
+
+@code {
+    [Parameter] public Guid courseId { get; set; }
+    private CourseModel? course;
+    private List<StudentModel> searchResults = new();
+    private List<StudentModel> enrolledStudents = new();
+    private string searchQuery = string.Empty;
+    private bool searchExecuted = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        course = await _courseService.GetCourseByIdAsync(courseId);
+        if (course != null)
+        {
+            // enrolledStudents = await _courseService.GetEnrolledStudents(courseId);
+        }
+    }
+
+    private async Task SearchStudents()
+    {
+        if (!string.IsNullOrWhiteSpace(searchQuery))
+        {
+            searchResults = await _studentService.SearchStudentsByName(searchQuery);
+            searchExecuted = true;
+        }
+    }
+
+    private async Task AddStudentToCourse(StudentModel student)
+    {
+        // await _courseService.AddStudentToCourse(courseId, student.Id);
+        enrolledStudents.Add(student);
+        searchResults.Remove(student);
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo($"/courses/edit/{courseId}");
+    }
+}

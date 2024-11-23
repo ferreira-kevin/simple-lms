@@ -1,0 +1,160 @@
+﻿/*.module-card {
+    background-color: #e9f5ff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.material-card {
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+*/
+
+/* Estilos Globais */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* Título da Página */
+.page-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #4a90e2;
+    margin-bottom: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Formulário de Curso */
+.course-form {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+    .form-group label {
+        display: block;
+        font-size: 1.1rem;
+        color: #555;
+        margin-bottom: 0.5rem;
+    }
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    font-size: 1rem;
+    transition: border-color 0.2s ease-in-out;
+}
+
+    .form-control:focus {
+        border-color: #4a90e2;
+        outline: none;
+    }
+
+/* Botões */
+.course-button {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    margin: 1rem 0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+    display: inline-block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+    .course-button:hover {
+        background-color: #357abd;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .course-button:disabled {
+        background-color: #aaa;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+
+/* Estilos para Módulos */
+.module-card {
+    background-color: #e8f0fe;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid #4a90e2;
+}
+
+    .module-card .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .module-card h3 {
+        font-size: 1.5rem;
+        color: #4a90e2;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+
+/* Estilos para Materiais */
+.material-card {
+    background-color: #f9fafc;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+    border-left: 3px solid #357abd;
+}
+
+    .material-card .form-group {
+        margin-bottom: 0.75rem;
+    }
+
+/* Grid de Cards */
+.courses-container {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    padding: 2rem;
+}
+
+/* Melhorias Visuais */
+textarea.form-control {
+    height: 120px;
+    resize: vertical;
+}
+
+/* Melhoria dos Inputs */
+input[type="text"].form-control,
+textarea.form-control {
+    transition: box-shadow 0.3s ease;
+}
+
+    input[type="text"].form-control:focus,
+    textarea.form-control:focus {
+        box-shadow: 0 0 5px rgba(74, 144, 226, 0.4);
+    }

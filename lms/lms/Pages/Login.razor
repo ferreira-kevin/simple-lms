@@ -1,0 +1,78 @@
+﻿@page "/login"
+@using System.ComponentModel.DataAnnotations
+@using System.Security.Claims
+@using lms.Providers
+@using lms.UseCases.Common
+@inject ILogin _login
+@inject CustomAuthenticationService AuthService
+@inject NavigationManager Navigation
+@layout LoginLayout
+
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow-lg" style="width: 300px;">
+        <h3 class="text-center mb-4">Login</h3>
+
+        <EditForm Model="@loginModel" OnValidSubmit="HandleLogin">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <InputText id="username" class="form-control" @bind-Value="loginModel.Username" />
+                <ValidationMessage For="@(() => loginModel.Username)" />
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <InputText id="password" type="password" class="form-control" @bind-Value="loginModel.Password" />
+                <ValidationMessage For="@(() => loginModel.Password)" />
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="text-danger mt-2">@errorMessage</div>
+            }
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private LoginModel loginModel = new LoginModel();
+    private string errorMessage;
+
+    private async Task HandleLogin()
+    {
+        var roles = _login.Execute(loginModel.Username, loginModel.Password);
+        if (roles.Any())
+        {
+            var currentUser = AuthService.CurrentUser;
+
+            var identity = new ClaimsIdentity(
+                [
+                    new Claim(ClaimTypes.Name, loginModel.Username),
+                    new Claim(ClaimTypes.Role, roles.First().ToString()),
+                ],
+                "Custom Authentication");
+
+            var newUser = new ClaimsPrincipal(identity);
+
+            AuthService.CurrentUser = newUser;
+            Navigation.NavigateTo("/");
+        }
+        else
+        {
+            errorMessage = "Invalid username or password.";
+        }
+    }
+
+    public class LoginModel
+    {
+        [Required]
+        public string Username { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+    }
+}

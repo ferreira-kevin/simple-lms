@@ -1,0 +1,74 @@
+﻿/* Estilos Globais */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* Título da Página */
+h3 {
+    text-align: center;
+    font-size: 2rem;
+    color: #4a90e2;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+/* Tabela de Notas */
+.table {
+    width: 90%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+    /* Cabeçalho da Tabela */
+    .table thead {
+        background-color: #4a90e2;
+        color: #ffffff;
+    }
+
+        .table thead th {
+            padding: 1rem;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+    /* Corpo da Tabela */
+    .table tbody tr {
+        transition: background-color 0.3s ease;
+    }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .table tbody tr:hover {
+            background-color: #e8f0fe;
+        }
+
+    .table td {
+        padding: 1rem;
+        font-size: 1rem;
+        color: #555;
+        border-bottom: 1px solid #ddd;
+    }
+
+/* Mensagem de "Sem Notas" */
+p {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 2rem;
+}

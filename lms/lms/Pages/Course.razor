@@ -1,0 +1,82 @@
+﻿@page "/courses/{courseId:guid}"
+@using lms.Domain
+@using lms.UseCases.Student
+@inject NavigationManager Navigation
+@inject ICourseService CourseService
+
+<h2 class="page-title">Detalhes do Curso</h2>
+
+@if (isLoading)
+{
+    <p>Carregando informações do curso...</p>
+}
+else if (course == null)
+{
+    <p>Curso não encontrado.</p>
+}
+else
+{
+    <div class="course-detail">
+        <h3>@course.Name</h3>
+        <p>@course.Description</p>
+
+        <section class="modules-section">
+            <h4>Módulos</h4>
+            @if (course.Modules == null || !course.Modules.Any())
+            {
+                <p>Nenhum módulo disponível para este curso.</p>
+            }
+            else
+            {
+                <div class="modules-container">
+                    @foreach (var module in course.Modules)
+                    {
+                        <div class="module-card">
+                            <h5>@module.Title</h5>
+                            @* <p>@module.Description</p> *@
+
+                            <div class="materials-section">
+                                <h6>Materiais de Aula</h6>
+                                @if (module.Materials == null || !module.Materials.Any())
+                                {
+                                    <p>Nenhum material disponível para este módulo.</p>
+                                }
+                                else
+                                {
+                                    <ul class="materials-list">
+                                        @foreach (var material in module.Materials)
+                                        {
+                                            <li class="material-item">@material.Title - @material.Content</li>
+                                        }
+                                    </ul>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </section>
+
+        <button class="course-button" @onclick="GoBack">Voltar</button>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Guid CourseId { get; set; }
+
+    private CourseModel? course;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Carregar o curso baseado no ID fornecido (GUID)
+        course = await CourseService.GetCourseByIdAsync(CourseId);
+        isLoading = false;
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/courses");
+    }
+}
