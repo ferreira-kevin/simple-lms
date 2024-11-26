@@ -1,0 +1,11 @@
+﻿.dashboard-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+@media (min-width: 641px) {
+    .dashboard-container {
+        grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    }
+}

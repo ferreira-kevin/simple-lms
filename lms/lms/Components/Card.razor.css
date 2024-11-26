@@ -1,0 +1,41 @@
+﻿.dashboard-card {
+    display: block; /* Para que o link ocupe o espaço total do card */
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    text-decoration: none; /* Remove underline do link */
+    color: inherit; /* Mantém a cor do texto */
+}
+
+    .dashboard-card:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Efeito ao passar o mouse */
+    }
+
+.card-header {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.card-content {
+    margin-top: 0.5rem;
+}
+
+.card-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.card-key {
+    font-weight: bold;
+    color: #555;
+}
+
+.card-value {
+    color: #333;
+}

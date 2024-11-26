@@ -1,0 +1,123 @@
+﻿/* Container principal para as turmas */
+.class-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 2rem;
+    justify-content: center;
+}
+
+/* Card para cada turma */
+.class-card {
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 350px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .class-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+/* Cabeçalho da turma */
+.class-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.class-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.add-module-btn {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+    .add-module-btn:hover {
+        color: #0056b3;
+    }
+
+/* Container para os módulos */
+.module-container {
+    margin-top: 1rem;
+}
+
+/* Card para cada módulo */
+.module-card {
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Cabeçalho do módulo */
+.module-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.module-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #555;
+}
+
+.module-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.module-config-btn,
+.module-delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: #6c757d;
+}
+
+    .module-config-btn:hover {
+        color: #007bff;
+    }
+
+    .module-delete-btn:hover {
+        color: #dc3545;
+    }
+
+/* Lista de disciplinas */
+.discipline-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.discipline-item {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e9e9e9;
+    font-size: 0.95rem;
+    color: #666;
+}
+
+    .discipline-item:last-child {
+        border-bottom: none;
+    }
+
+
+.bi-plus-square-fill-nav-menu {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-plus-square-fill' viewBox='0 0 16 16'%3E%3Cpath d='M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z'/%3E%3C/svg%3E");
+}

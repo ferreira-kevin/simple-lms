@@ -1,11 +1,12 @@
 ﻿@page "/students/register"
 @using lms.Domain
-@inject IStudentService _studentService
+@* @inject IStudentService _studentService *@
 @inject NavigationManager Navigation
 
 <h3>Cadastrar Novo Aluno</h3>
 
-<div class="form-container">
+
+@* <div class="form-container">
     <div class="form-field">
         <label for="fullName">Nome Completo:</label>
         <input type="text" id="fullName" @bind="student.User.FullName" class="input-field" />
@@ -23,10 +24,13 @@
 @if (registrationSuccess)
 {
     <p class="success-message">Aluno cadastrado com sucesso!</p>
-}
+} *@
 
 @code {
-    private StudentModel student = new();
+    private StudentModel student = new()
+    {
+        User = new()
+    };
     private bool registrationSuccess = false;
 
     private async Task RegisterStudent()

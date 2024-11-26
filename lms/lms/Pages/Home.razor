@@ -1,7 +1,35 @@
 ﻿@page "/"
+@using lms.Components
 
 <PageTitle>Home</PageTitle>
 
 <h1>Plataforma Educacional</h1>
 
 Bem-vindo!
+
+<div class="dashboard-container">
+    <Card Title="Alunos" Values="@averageGrades" Link="/courses" />
+    <Card Title="Engajamento dos Alunos" Values="@(studentEngagement)" />
+    <Card Title="Alunos Ativos nos Cursos" Values="@activeStudents" />
+</div>
+
+@code {
+    private Dictionary<string, string> averageGrades = new()
+    {
+        {"Média das notas","60"},
+        {"Engajamento","74%"},
+        {"Ativos","24"},
+    };
+    private Dictionary<string, string> studentEngagement = new()
+    {
+        {"Média das notas","60"},
+        {"Engajamento","74%"},
+        {"Ativos","24"},
+    };
+    private Dictionary<string, string> activeStudents = new()
+    {
+        {"Média das notas","60"},
+        {"Engajamento","74%"},
+        {"Ativos","24"},
+    };
+}

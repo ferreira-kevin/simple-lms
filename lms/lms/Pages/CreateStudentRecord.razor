@@ -1,0 +1,83 @@
+﻿@page "/academic-record/new"
+@inject NavigationManager Navigation
+
+<PageTitle>Registrar Novo Aluno</PageTitle>
+
+<h1>Registrar Novo Aluno</h1>
+
+@if (successMessageVisible)
+{
+    <div class="success-message">
+        Aluno registrado com sucesso!
+    </div>
+}
+
+<div class="form-container">
+    <EditForm Model="@newStudent" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="name">Nome:</label>
+            <InputText id="name" @bind-Value="newStudent.Name" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="rm">RM:</label>
+            <InputText id="rm" @bind-Value="newStudent.RM" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="cpf">CPF:</label>
+            <InputText id="cpf" @bind-Value="newStudent.CPF" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="birthdate">Data de Nascimento:</label>
+            <InputDate id="birthdate" @bind-Value="newStudent.BirthDate" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="address">Endereço:</label>
+            <InputText id="address" @bind-Value="newStudent.Address" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Telefone:</label>
+            <InputText id="phone" @bind-Value="newStudent.Phone" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="email">E-mail:</label>
+            <InputText id="email" @bind-Value="newStudent.Email" class="form-control" />
+        </div>
+
+        <button type="submit" class="submit-btn">Registrar Aluno</button>
+    </EditForm>
+</div>
+
+@code {
+    private StudentModel newStudent = new StudentModel();
+    private bool successMessageVisible = false;
+
+    private void HandleValidSubmit()
+    {
+        // Simula a criação do aluno (pode ser substituído por uma chamada de serviço)
+        successMessageVisible = true;
+
+        // Limpa o formulário após a criação
+        newStudent = new StudentModel();
+        Navigation.NavigateTo("/academic-record");
+    }
+
+    public class StudentModel
+    {
+        public string Name { get; set; } = string.Empty;
+        public string RM { get; set; } = string.Empty;
+        public string CPF { get; set; } = string.Empty;
+        public DateTime BirthDate { get; set; }
+        public string Address { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+    }
+}

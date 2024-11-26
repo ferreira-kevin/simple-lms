@@ -1,0 +1,150 @@
+﻿@page "/academic-record"
+@inject NavigationManager Navigation
+
+<PageTitle>Registro Acadêmico</PageTitle>
+
+<div>
+    <h1>Registro Acadêmico</h1>
+</div>
+
+<div class="tabs-container">
+    <button @onclick="() => SelectTab(studentTab)" class="@GetTabClass(studentTab)">Alunos</button>
+    <button @onclick="() => SelectTab(teacherTab)" class="@GetTabClass(teacherTab)">Professores</button>
+</div>
+
+<div>
+    @if (activeTab == "students")
+    {
+        <div>
+            <a class="edit-btn" href="/academic-record/new"> Novo Aluno</a>
+        </div>
+
+        <div class="academic-record-container">
+            <table class="academic-table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>RM</th>
+                        <th>Ano de Ingresso</th>
+                        <th>Status</th>
+                        <th>Turma</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var record in academicRecords)
+                    {
+                        <tr>
+                            <td>@record.Name</td>
+                            <td>@record.RM</td>
+                            <td>@record.EnrollmentYear</td>
+                            <td>@record.Status</td>
+                            <td>@record.ClassName</td>
+                            <td>
+                                <button class="edit-btn" @onclick="() => EditRecord(record.Id)">
+                                    <i class="bi-pencil-square"></i> Editar
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else if (activeTab == "teachers")
+    {
+        <div>
+            <a class="edit-btn" href="/academic-record/new-teacher"> Novo Professor</a>
+        </div>
+
+        <div class="academic-record-container">
+            <table class="academic-table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var teacher in teacherRecords)
+                    {
+                        <tr>
+                            <td>@teacher.Name</td>
+                            <td>@teacher.Status</td>
+                            <td>
+                                <button class="edit-btn" @onclick="() => EditTeacher(teacher.Id)">
+                                    <i class="bi-pencil-square"></i> Editar
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@code {
+    private const string studentTab = "students";
+    private const string teacherTab = "teachers";
+    private string activeTab = studentTab; // Aba ativa por padrão
+    private List<AcademicRecordModel> academicRecords = new List<AcademicRecordModel>
+    {
+        new AcademicRecordModel { Id = 1, Name = "Ana Silva", RM = "12345", EnrollmentYear = 2020, Status = "Ativo", ClassName = "Turma A" },
+        new AcademicRecordModel { Id = 2, Name = "Carlos Santos", RM = "67890", EnrollmentYear = 2019, Status = "Ativo", ClassName = "Turma B" },
+        new AcademicRecordModel { Id = 3, Name = "Beatriz Oliveira", RM = "11223", EnrollmentYear = 2021, Status = "Inativo", ClassName = "Turma C" }
+    };
+
+    private List<TeacherRecordModel> teacherRecords = new List<TeacherRecordModel>
+    {
+        new TeacherRecordModel { Id = 1, Name = "José Lima", RM = "99876", HiringYear = 2018, Status = "Ativo", Department = "Matemática" },
+        new TeacherRecordModel { Id = 2, Name = "Maria Ferreira", RM = "88765", HiringYear = 2017, Status = "Ativo", Department = "História" },
+        new TeacherRecordModel { Id = 3, Name = "João Souza", RM = "77654", HiringYear = 2020, Status = "Inativo", Department = "Português" }
+    };
+
+    private void SelectTab(string tabName)
+    {
+        activeTab = tabName;
+    }
+
+    private string GetTabClass(string tabName) => activeTab == tabName ? "active-tab" : "";
+
+    private void EditRecord(int id)
+    {
+        var recordToEdit = academicRecords.FirstOrDefault(r => r.Id == id);
+        if (recordToEdit != null)
+        {
+            Navigation.NavigateTo($"/academic-record/{id}/edit");
+        }
+    }
+
+    private void EditTeacher(int id)
+    {
+        var teacherToEdit = teacherRecords.FirstOrDefault(t => t.Id == id);
+        if (teacherToEdit != null)
+        {
+            Navigation.NavigateTo($"/academic-record/teacher/{id}/edit");
+        }
+    }
+
+    public class AcademicRecordModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string RM { get; set; }
+        public int EnrollmentYear { get; set; }
+        public string Status { get; set; }
+        public string ClassName { get; set; }
+    }
+
+    public class TeacherRecordModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string RM { get; set; }
+        public int HiringYear { get; set; }
+        public string Status { get; set; }
+        public string Department { get; set; }
+    }
+}

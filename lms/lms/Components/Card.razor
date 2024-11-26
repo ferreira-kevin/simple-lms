@@ -1,0 +1,25 @@
+﻿<a href="@Link" class="dashboard-card">
+    <div class="card-header">
+        @Title
+    </div>
+    <div class="card-content">
+        @foreach (var item in Values)
+        {
+            <div class="card-item">
+                <span class="card-key">@item.Key:</span>
+                <span class="card-value">@item.Value</span>
+            </div>
+        }
+    </div>
+</a>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = "Default Title";
+
+    [Parameter]
+    public Dictionary<string, string> Values { get; set; } = new Dictionary<string, string>();
+
+    [Parameter]
+    public string Link { get; set; } = "#"; // Link padrão para onde o card irá direcionar
+}

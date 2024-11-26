@@ -1,0 +1,186 @@
+﻿@page "/classes"
+
+<PageTitle>Gestão de Turmas</PageTitle>
+
+<div class="class-header"
+    <h1>Turmas</h1>
+    <button class="add-module-btn" @onclick="() => AddModule(1)">
+        <i class="bi bi-plus-circle"></i> Adicionar Módulo
+    </button>
+</div>
+
+<div>
+    <div class="class-header">
+        <span class="module-title">Turma 1</span>
+        <span class="module-title">Quantidade de alunos: 23</span>
+    </div>
+    <div class="class-header">
+        <span >Disciplina 1</span>
+        <span>EAD</span>
+        <span>Ana Carolina</span>
+        <span>2024</span>
+    </div>
+    <div class="class-header">
+        <span>Disciplina 1</span>
+        <span>EAD</span>
+        <span>Ana Carolina</span>
+        <span>2024</span>
+    </div>
+    <div class="class-header">
+        <span>Disciplina 1</span>
+        <span>EAD</span>
+        <span>Ana Carolina</span>
+        <span>2024</span>
+    </div>
+    <button class="add-module-btn" @onclick="() => AddModule(1)">
+        <i class="bi bi-plus-circle"></i> Adicionar Disciplina
+    </button>
+</div>
+
+<div>
+    <div class="class-header">
+        <span class="module-title">Turma 1</span>
+        <span class="module-title">Quantidade de alunos: 23</span>
+    </div>
+</div>
+
+<div>
+    <div class="class-header">
+        <span class="module-title">Turma 1</span>
+        <span class="module-title">Quantidade de alunos: 23</span>
+    </div>
+</div>
+@* 
+<div class="class-container">
+    @foreach (var turma in turmas)
+    {
+        <div class="class-card">
+            <div class="class-header">
+                <span class="class-title">@turma.Nome</span>
+                <span class="class-student-count">Alunos: @turma.QuantidadeAlunos</span>
+
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span>
+                <button class="add-module-btn" @onclick="() => AddModule(turma.Id)">
+                    <i class="bi bi-plus-circle"></i> Adicionar Módulo
+                </button>
+            </div>
+            <div class="module-container">
+                @foreach (var modulo in turma.Modulos)
+                {
+                    <div class="module-card">
+                        <div class="module-header">
+                            <span class="module-title">@modulo.Nome</span>
+                            <div class="module-actions">
+                                <button class="module-config-btn" @onclick="() => ConfigureModule(modulo.Id)">
+                                    <i class="bi bi-gear"></i>
+                                </button>
+                                <button class="module-delete-btn" @onclick="() => DeleteModule(modulo.Id)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <ul class="discipline-list">
+                            @foreach (var disciplina in modulo.Disciplinas)
+                            {
+                                <li class="discipline-item">
+                                    <span class="discipline-name">@disciplina.Nome</span>
+                                    <span class="discipline-teacher">Professor: @disciplina.Professor</span>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div> *@
+
+@code {
+    private List<TurmaModel> turmas = new List<TurmaModel>
+    {
+        new TurmaModel
+        {
+            Id = 1,
+            Nome = "Turma A",
+            QuantidadeAlunos = 25,
+            Modulos = new List<ModuloModel>
+            {
+                new ModuloModel
+                {
+                    Id = 1,
+                    Nome = "Módulo 1",
+                    Disciplinas = new List<DisciplinaModel>
+                    {
+                        new DisciplinaModel { Nome = "Matemática", Professor = "Prof. João" },
+                        new DisciplinaModel { Nome = "Física", Professor = "Prof. Maria" }
+                    }
+                },
+                new ModuloModel
+                {
+                    Id = 2,
+                    Nome = "Módulo 2",
+                    Disciplinas = new List<DisciplinaModel>
+                    {
+                        new DisciplinaModel { Nome = "Química", Professor = "Prof. Carlos" },
+                        new DisciplinaModel { Nome = "Biologia", Professor = "Prof. Ana" }
+                    }
+                }
+            }
+        },
+        new TurmaModel
+        {
+            Id = 2,
+            Nome = "Turma B",
+            QuantidadeAlunos = 30,
+            Modulos = new List<ModuloModel>
+            {
+                new ModuloModel
+                {
+                    Id = 3,
+                    Nome = "Módulo 1",
+                    Disciplinas = new List<DisciplinaModel>
+                    {
+                        new DisciplinaModel { Nome = "História", Professor = "Prof. Pedro" },
+                        new DisciplinaModel { Nome = "Geografia", Professor = "Prof. Luiza" }
+                    }
+                }
+            }
+        }
+    };
+
+    private void AddModule(int turmaId)
+    {
+        // Lógica para adicionar um novo módulo a uma turma específica
+    }
+
+    private void ConfigureModule(int moduleId)
+    {
+        // Lógica para configurar um módulo específico
+    }
+
+    private void DeleteModule(int moduleId)
+    {
+        // Lógica para excluir um módulo específico
+    }
+
+    public class TurmaModel
+    {
+        public int Id { get; set; }
+        public string Nome { get; set; }
+        public int QuantidadeAlunos { get; set; } // Nova propriedade para quantidade de alunos
+        public List<ModuloModel> Modulos { get; set; }
+    }
+
+    public class ModuloModel
+    {
+        public int Id { get; set; }
+        public string Nome { get; set; }
+        public List<DisciplinaModel> Disciplinas { get; set; }
+    }
+
+    public class DisciplinaModel
+    {
+        public string Nome { get; set; }
+        public string Professor { get; set; } // Nome do professor
+    }
+}
