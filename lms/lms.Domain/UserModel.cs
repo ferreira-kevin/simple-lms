@@ -8,10 +8,15 @@ public class UserModel
     public string FullName { get; set; }
     public string Email { get; set; }
     public string Phone { get; set; }
+    public string Identity { get; set; }
     public string HashedPassword { get; set; }
     public List<Role> Roles { get; set; } = new();
+    public DateOnly BirthDate { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+    public AddressModel Address { get; set; }
+    public TeacherModel Teacher { get; set; }
+    public StudentModel Student { get; set; }
 
     public UserModel()
     {

@@ -9,6 +9,9 @@ public record QuestionAnswerModel(
     DateTime CreatedAt,
     DateTime UpdatedAt)
 {
+    public AssignmentAttemptModel? AssignmentAttempt { get; set; }
+    public QuestionModel? Question { get; set; }
+
     public QuestionAnswerModel Inactivate()
     {
         return this with { Active = false, UpdatedAt = DateTime.UtcNow };

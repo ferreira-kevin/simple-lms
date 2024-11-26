@@ -9,8 +9,9 @@ public class AssignmentAttemptModel
     public bool Open { get; set; }
     public DateTime CreatedAt { get; set; }
 
-    public virtual AssignmentModel Assignment { get; set; }
-    public virtual List<QuestionAnswerModel> QuestionAnswers { get; set; } = new List<QuestionAnswerModel>();
+    public AssignmentModel? Assignment { get; set; }
+    public List<QuestionAnswerModel> QuestionAnswers { get; set; } = [];
+    public StudentModel? Student { get; set; }
 
     public AssignmentAttemptModel() { }
 
