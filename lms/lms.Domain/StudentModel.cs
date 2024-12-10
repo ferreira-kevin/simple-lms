@@ -28,4 +28,13 @@ public class StudentModel
 
         User = new UserModel(Id, fullName, email, identity, phone, hashedPassword, [Role.Student], birthDate, DateTime.UtcNow, DateTime.UtcNow);
     }
+
+    public StudentModel(Guid id, string enrollmentNumber, string fullName, string email, string identity, string phone, string hashedPassword, DateOnly birthDate)
+    {
+        Id = id;
+        EnrollmentNumber = enrollmentNumber;
+        EnrollmentDate = DateTime.UtcNow;
+
+        User = new UserModel(Id, fullName, email, identity, phone, hashedPassword, [Role.Student], birthDate, DateTime.UtcNow, DateTime.UtcNow);
+    }
 }

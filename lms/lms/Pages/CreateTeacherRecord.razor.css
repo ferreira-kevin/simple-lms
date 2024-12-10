@@ -1,0 +1,15 @@
+﻿.form-container {
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fafafa;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-title {
+    margin-bottom: 20px;
+}
+
+.mud-button {
+    margin-top: 20px;
+}

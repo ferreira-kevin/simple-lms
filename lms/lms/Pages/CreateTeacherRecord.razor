@@ -1,0 +1,71 @@
+﻿@page "/academic-record/new-teacher"
+@using System.ComponentModel.DataAnnotations
+@using lms.Domain
+@using lms.UseCases.Manager.AcademicRecord
+@inject NavigationManager Navigation
+@inject ICreateTeacher createTeacher
+
+<EditForm Model="@newTeacherForm" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="7">
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField T="string" Label="Nome" @bind-Value="newTeacherForm.FullName" Variant="Variant.Text" Required="true" RequiredError="Nome é obrigatório!" />
+
+                    <MudTextField T="string" Label="CPF" @bind-Value="newTeacherForm.Identity" Variant="Variant.Text" Required="true" RequiredError="CPF é obrigatório!" />
+
+                    @* <MudDatePicker T="DateOnly" Label="Data de Nascimento" For="@(() => newStudent.User.BirthDate)" Required="true" RequiredError="Data de Nascimento é obrigatória!" /> *@
+
+                    @* <MudTextField T="string" Label="Endereço" For="@(() => newStudent.Address)" Variant="Variant.Text" /> *@
+
+                    <MudTextField T="string" Label="Telefone" @bind-Value="newTeacherForm.Phone" Variant="Variant.Text" Required="true" RequiredError="Telefone é obrigatório!" />
+
+                    <MudTextField T="string" Label="E-mail" @bind-Value="newTeacherForm.Email" Variant="Variant.Text" Required="true" RequiredError="E-mail é obrigatório!"
+                                  Validation="@(new EmailAddressAttribute() { ErrorMessage = "O endereço de e-mail é inválido" })" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        @if (success)
+        {
+            <MudItem xs="12" sm="5">
+                <MudPaper Class="pa-4 mud-height-full">
+                    <MudText Typo="Typo.subtitle2">Validation Summary</MudText>
+                    @if (success)
+                    {
+                        <MudText Color="Color.Success">Success</MudText>
+                    }
+                    else
+                    {
+                        <MudText Color="@Color.Error">
+                            <ValidationSummary />
+                        </MudText>
+                    }
+                </MudPaper>
+            </MudItem>
+        }
+        <MudItem xs="12">
+            <MudText Typo="Typo.body2" Align="Align.Center">
+                Fill out the form correctly to see the success message.
+            </MudText>
+        </MudItem>
+    </MudGrid>
+</EditForm>
+
+
+@code {
+    private NewTeacherForm newTeacherForm = new NewTeacherForm();
+    private bool success;
+    private string[] errors = [];
+
+    private async Task HandleValidSubmit()
+    {
+        success = true;
+        await createTeacher.Execute(newTeacherForm);
+        StateHasChanged();
+        Navigation.NavigateTo("/academic-record");
+    }
+}

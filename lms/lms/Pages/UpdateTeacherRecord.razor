@@ -1,59 +1,55 @@
-﻿@page "/academic-record/{userId:guid}/edit"
+﻿@page "/academic-record/teacher/{userId:guid}/edit"
 @using lms.Domain
 @using lms.UseCases.Manager.AcademicRecord
+@using lms.UseCases.Teacher
 @inject NavigationManager Navigation
-@inject IStudentService StudentService
-@inject IUpdateStudent UpdateStudent
+@inject ITeacherService TeacherService
+@inject IUpdateTeacher UpdateTeacher
 
-<PageTitle>Editar Aluno</PageTitle>
+<PageTitle>Editar Professor</PageTitle>
 
-<h1>Editar Aluno</h1>
+<h1>Editar Professor</h1>
 
 @if (successMessageVisible)
 {
     <div class="success-message">
-        Aluno atualizado com sucesso!
+        Professor atualizado com sucesso!
     </div>
 }
 
 <div class="form-container">
-    <EditForm Model="@student" OnValidSubmit="HandleValidSubmit">
+    <EditForm Model="@teacher" OnValidSubmit="HandleValidSubmit">
         <DataAnnotationsValidator />
         <ValidationSummary />
 
         <div class="form-group">
             <label for="name">Nome:</label>
-            <InputText id="name" @bind-Value="student.User.FullName" class="form-control" />
-        </div>
-
-        <div class="form-group">
-            <label for="rm">RM:</label>
-            <InputText id="rm" @bind-Value="student.EnrollmentNumber" class="form-control" />
+            <InputText id="name" @bind-Value="teacher.User.FullName" class="form-control" />
         </div>
 
         <div class="form-group">
             <label for="cpf">CPF:</label>
-            <InputText id="cpf" @bind-Value="student.User.Identity" class="form-control" />
+            <InputText id="cpf" @bind-Value="teacher.User.Identity" class="form-control" />
         </div>
 
         <div class="form-group">
             <label for="birthdate">Data de Nascimento:</label>
-            <InputDate id="birthdate" @bind-Value="student.User.BirthDate" class="form-control" />
+            <InputDate id="birthdate" @bind-Value="teacher.User.BirthDate" class="form-control" />
         </div>
 
        @*  <div class="form-group">
             <label for="address">Endereço:</label>
-            <InputText id="address" @bind-Value="student.User.Address" class="form-control" />
+            <InputText id="address" @bind-Value="teacher.User.Address" class="form-control" />
         </div> *@
 
         <div class="form-group">
             <label for="phone">Telefone:</label>
-            <InputText id="phone" @bind-Value="student.User.Phone" class="form-control" />
+            <InputText id="phone" @bind-Value="teacher.User.Phone" class="form-control" />
         </div>
 
         <div class="form-group">
             <label for="email">E-mail:</label>
-            <InputText id="email" @bind-Value="student.User.Email" class="form-control" />
+            <InputText id="email" @bind-Value="teacher.User.Email" class="form-control" />
         </div>
 
         <button type="submit" class="submit-btn">Salvar</button>
@@ -64,17 +60,17 @@
     [Parameter]
     public Guid UserId { get; set; }
 
-    private StudentModel student = new StudentModel();
+    private TeacherModel teacher = new TeacherModel();
     private bool successMessageVisible = false;
 
     protected override async Task OnInitializedAsync()
     {
-        student = await StudentService.GetByIdAsync(UserId);
+        teacher = await TeacherService.GetByIdAsync(UserId);
     }
 
     private async Task HandleValidSubmit()
     {
-        await UpdateStudent.Execute(student);
+        await UpdateTeacher.Execute(teacher);
 
         successMessageVisible = true;
 

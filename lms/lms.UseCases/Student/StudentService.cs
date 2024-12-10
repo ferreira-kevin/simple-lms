@@ -12,6 +12,11 @@ public class StudentService : IStudentService
         _courseRepository = courseRepository;
     }
 
+    public async Task<StudentModel> GetByIdAsync(Guid id)
+    {
+        return await _studentRepository.GetByIdAsync(id);
+    }
+
     // Método para buscar alunos pelo nome
     public async Task<List<StudentModel>> SearchStudentsByName(string name)
     {
@@ -67,4 +72,5 @@ public interface IStudentService
 
     // Método para obter todos os alunos inscritos em um curso
     Task<List<StudentModel>> GetEnrolledStudents(Guid courseId);
+    Task<StudentModel> GetByIdAsync(Guid id);
 }

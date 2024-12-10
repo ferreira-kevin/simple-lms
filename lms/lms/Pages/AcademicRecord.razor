@@ -1,6 +1,7 @@
 ﻿@page "/academic-record"
 @inject NavigationManager Navigation
 @inject IListStudents listStudents
+@inject IListTeachers listTeachers
 @using MudBlazor;
 @using lms.Domain
 @using lms.UseCases.Manager.AcademicRecord
@@ -71,20 +72,20 @@
             </MudButton>
         </div>
 
-       <MudTable Items="teacherRecords" Hover="true" Bordered="true" Striped="true" Dense="true" Class="academic-record-container">
+       <MudTable Items="teachers" Hover="true" Bordered="true" Striped="true" Dense="true" Class="academic-record-container">
             <ToolBarContent>
                 <MudText Typo="Typo.h6">Registros de Professores</MudText>
             </ToolBarContent>
 
             <HeaderContent>
                 <MudTh>Nome</MudTh>
-                <MudTh>Status</MudTh>
+                <MudTh>E-mail</MudTh>
                 <MudTh>Ações</MudTh>
             </HeaderContent>
 
             <RowTemplate>
-                <MudTd>@context.Name</MudTd>
-                <MudTd>@context.Status</MudTd>
+                <MudTd>@context.User.FullName</MudTd>
+                <MudTd>@context.User.Email</MudTd>
                 <MudTd>
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" StartIcon="@Icons.Material.Filled.Edit" @onclick="() => EditTeacher(context.Id)">
                         Editar
@@ -99,25 +100,14 @@
 
 @code {
     private IEnumerable<StudentModel> students = [];
+    private IEnumerable<TeacherModel> teachers = [];
 
     private int activeTab = 0;
-    private List<AcademicRecordModel> academicRecords = new List<AcademicRecordModel>
-    {
-        new AcademicRecordModel { Id = 1, Name = "Ana Silva", RM = "12345", EnrollmentYear = 2020, Status = "Ativo", ClassName = "Turma A" },
-        new AcademicRecordModel { Id = 2, Name = "Carlos Santos", RM = "67890", EnrollmentYear = 2019, Status = "Ativo", ClassName = "Turma B" },
-        new AcademicRecordModel { Id = 3, Name = "Beatriz Oliveira", RM = "11223", EnrollmentYear = 2021, Status = "Inativo", ClassName = "Turma C" }
-    };
-
-    private List<TeacherRecordModel> teacherRecords = new List<TeacherRecordModel>
-    {
-        new TeacherRecordModel { Id = 1, Name = "José Lima", RM = "99876", HiringYear = 2018, Status = "Ativo", Department = "Matemática" },
-        new TeacherRecordModel { Id = 2, Name = "Maria Ferreira", RM = "88765", HiringYear = 2017, Status = "Ativo", Department = "História" },
-        new TeacherRecordModel { Id = 3, Name = "João Souza", RM = "77654", HiringYear = 2020, Status = "Inativo", Department = "Português" }
-    };
 
     protected override async Task OnInitializedAsync()
     {
         students = await listStudents.Execute();
+        teachers = await listTeachers.Execute();
     }
 
     private void EditRecord(Guid id)
@@ -129,32 +119,12 @@
         }
     }
 
-    private void EditTeacher(int id)
+    private void EditTeacher(Guid id)
     {
-        var teacherToEdit = teacherRecords.FirstOrDefault(t => t.Id == id);
+        var teacherToEdit = teachers.FirstOrDefault(t => t.Id == id);
         if (teacherToEdit != null)
         {
             Navigation.NavigateTo($"/academic-record/teacher/{id}/edit");
         }
-    }
-
-    public class AcademicRecordModel
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string RM { get; set; }
-        public int EnrollmentYear { get; set; }
-        public string Status { get; set; }
-        public string ClassName { get; set; }
-    }
-
-    public class TeacherRecordModel
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string RM { get; set; }
-        public int HiringYear { get; set; }
-        public string Status { get; set; }
-        public string Department { get; set; }
     }
 }

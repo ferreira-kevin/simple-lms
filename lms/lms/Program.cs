@@ -8,6 +8,7 @@ using lms.UseCases.Student;
 using lms.UseCases.Student.Assignment;
 using lms.UseCases.Student.Assignments;
 using lms.UseCases.Student.Grades;
+using lms.UseCases.Teacher;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -34,6 +35,7 @@ builder.Services.AddScoped<IQuestionAnswerRepository, QuestionAnswerRepository>(
 builder.Services.AddScoped<IGradeRepository, GradeRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<IFinalizeAssignment, FinalizeAssignment>();
@@ -45,9 +47,14 @@ builder.Services.AddScoped<IUploadFile, UploadFile>();
 builder.Services.AddScoped<IListAssignments, ListAssignments>();
 builder.Services.AddScoped<IListGrades, ListGrades>();
 builder.Services.AddScoped<ICreateStudent, CreateStudent>();
+builder.Services.AddScoped<ICreateTeacher, CreateTeacher>();
+builder.Services.AddScoped<IUpdateStudent, UpdateStudent>();
+builder.Services.AddScoped<IUpdateTeacher, UpdateTeacher>();
 builder.Services.AddScoped<IListStudents, ListStudents>();
+builder.Services.AddScoped<IListTeachers, ListTeachers>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<ITeacherService, TeacherService>();
 
 builder.Services.AddScoped<ILogin, Login>();
 
