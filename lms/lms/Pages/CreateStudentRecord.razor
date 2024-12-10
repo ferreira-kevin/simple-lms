@@ -1,83 +1,73 @@
 ﻿@page "/academic-record/new"
+@using System.ComponentModel.DataAnnotations
+@using lms.Domain
+@using lms.UseCases.Manager.AcademicRecord
 @inject NavigationManager Navigation
+@inject ICreateStudent createStudent
 
-<PageTitle>Registrar Novo Aluno</PageTitle>
+<EditForm Model="@newStudentForm" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="7">
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField T="string" Label="Nome" @bind-Value="newStudentForm.FullName" Variant="Variant.Text" Required="true" RequiredError="Nome é obrigatório!" />
 
-<h1>Registrar Novo Aluno</h1>
+                    <MudTextField T="string" Label="RM" @bind-Value="newStudentForm.EnrollmentNumber" Variant="Variant.Text" Required="true" RequiredError="RM é obrigatório!" />
 
-@if (successMessageVisible)
-{
-    <div class="success-message">
-        Aluno registrado com sucesso!
-    </div>
-}
+                    <MudTextField T="string" Label="CPF" @bind-Value="newStudentForm.Identity" Variant="Variant.Text" Required="true" RequiredError="CPF é obrigatório!" />
 
-<div class="form-container">
-    <EditForm Model="@newStudent" OnValidSubmit="HandleValidSubmit">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
+                    @* <MudDatePicker T="DateOnly" Label="Data de Nascimento" For="@(() => newStudent.User.BirthDate)" Required="true" RequiredError="Data de Nascimento é obrigatória!" /> *@
 
-        <div class="form-group">
-            <label for="name">Nome:</label>
-            <InputText id="name" @bind-Value="newStudent.Name" class="form-control" />
-        </div>
+                    @* <MudTextField T="string" Label="Endereço" For="@(() => newStudent.Address)" Variant="Variant.Text" /> *@
 
-        <div class="form-group">
-            <label for="rm">RM:</label>
-            <InputText id="rm" @bind-Value="newStudent.RM" class="form-control" />
-        </div>
+                    <MudTextField T="string" Label="Telefone" @bind-Value="newStudentForm.Phone" Variant="Variant.Text" Required="true" RequiredError="Telefone é obrigatório!" />
 
-        <div class="form-group">
-            <label for="cpf">CPF:</label>
-            <InputText id="cpf" @bind-Value="newStudent.CPF" class="form-control" />
-        </div>
+                    <MudTextField T="string" Label="E-mail" @bind-Value="newStudentForm.Email" Variant="Variant.Text" Required="true" RequiredError="E-mail é obrigatório!"
+                                  Validation="@(new EmailAddressAttribute() { ErrorMessage = "O endereço de e-mail é inválido" })" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        @if (success)
+        {
+            <MudItem xs="12" sm="5">
+                <MudPaper Class="pa-4 mud-height-full">
+                    <MudText Typo="Typo.subtitle2">Validation Summary</MudText>
+                    @if (success)
+                    {
+                        <MudText Color="Color.Success">Success</MudText>
+                    }
+                    else
+                    {
+                        <MudText Color="@Color.Error">
+                            <ValidationSummary />
+                        </MudText>
+                    }
+                </MudPaper>
+            </MudItem>
+        }
+        <MudItem xs="12">
+            <MudText Typo="Typo.body2" Align="Align.Center">
+                Fill out the form correctly to see the success message.
+            </MudText>
+        </MudItem>
+    </MudGrid>
+</EditForm>
 
-        <div class="form-group">
-            <label for="birthdate">Data de Nascimento:</label>
-            <InputDate id="birthdate" @bind-Value="newStudent.BirthDate" class="form-control" />
-        </div>
-
-        <div class="form-group">
-            <label for="address">Endereço:</label>
-            <InputText id="address" @bind-Value="newStudent.Address" class="form-control" />
-        </div>
-
-        <div class="form-group">
-            <label for="phone">Telefone:</label>
-            <InputText id="phone" @bind-Value="newStudent.Phone" class="form-control" />
-        </div>
-
-        <div class="form-group">
-            <label for="email">E-mail:</label>
-            <InputText id="email" @bind-Value="newStudent.Email" class="form-control" />
-        </div>
-
-        <button type="submit" class="submit-btn">Registrar Aluno</button>
-    </EditForm>
-</div>
 
 @code {
-    private StudentModel newStudent = new StudentModel();
-    private bool successMessageVisible = false;
+    private NewStudentForm newStudentForm = new NewStudentForm();
+    private bool success;
+    private string[] errors = [];
 
-    private void HandleValidSubmit()
+    private async Task HandleValidSubmit()
     {
-        // Simula a criação do aluno (pode ser substituído por uma chamada de serviço)
-        successMessageVisible = true;
-
-        // Limpa o formulário após a criação
-        newStudent = new StudentModel();
+        success = true;
+        await createStudent.Execute(newStudentForm);
+        StateHasChanged();
         Navigation.NavigateTo("/academic-record");
-    }
-
-    public class StudentModel
-    {
-        public string Name { get; set; } = string.Empty;
-        public string RM { get; set; } = string.Empty;
-        public string CPF { get; set; } = string.Empty;
-        public DateTime BirthDate { get; set; }
-        public string Address { get; set; } = string.Empty;
-        public string Phone { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
     }
 }
