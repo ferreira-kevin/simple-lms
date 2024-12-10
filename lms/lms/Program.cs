@@ -3,6 +3,7 @@ using lms.Data;
 using lms.Data.Repositories;
 using lms.Providers;
 using lms.UseCases.Common;
+using lms.UseCases.Manager.AcademicRecord;
 using lms.UseCases.Student;
 using lms.UseCases.Student.Assignment;
 using lms.UseCases.Student.Assignments;
@@ -33,6 +34,7 @@ builder.Services.AddScoped<IQuestionAnswerRepository, QuestionAnswerRepository>(
 builder.Services.AddScoped<IGradeRepository, GradeRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<IFinalizeAssignment, FinalizeAssignment>();
 builder.Services.AddScoped<INextQuestion, NextQuestion>();
@@ -42,6 +44,8 @@ builder.Services.AddScoped<IStartAssignment, StartAssignment>();
 builder.Services.AddScoped<IUploadFile, UploadFile>();
 builder.Services.AddScoped<IListAssignments, ListAssignments>();
 builder.Services.AddScoped<IListGrades, ListGrades>();
+builder.Services.AddScoped<ICreateStudent, CreateStudent>();
+builder.Services.AddScoped<IListStudents, ListStudents>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 

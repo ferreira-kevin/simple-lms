@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using lms.Domain;
+using System.Security.Claims;
 using static lms.Domain.Utils.Constants;
 
 namespace lms.Providers;
@@ -30,7 +31,7 @@ public class CustomAuthenticationService
         return CurrentUser.FindFirst(ClaimTypes.Name)?.Value ?? string.Empty;
     }
 
-    public bool IsAdmin() => CurrentUser.Identity.Name.ToLowerInvariant() == UserRoles.Admin.ToLowerInvariant();
-    public bool IsTeacher() => CurrentUser.Identity.Name.ToLowerInvariant() == UserRoles.Teacher.ToLowerInvariant();
-    public bool IsStudent() => CurrentUser.Identity.Name.ToLowerInvariant() == UserRoles.Student.ToLowerInvariant();
+    public bool IsAdmin() => CurrentUser.IsInRole(Role.Administrator.ToString());
+    public bool IsTeacher() => CurrentUser.IsInRole(Role.Teacher.ToString());
+    public bool IsStudent() => CurrentUser.IsInRole(Role.Student.ToString());
 }

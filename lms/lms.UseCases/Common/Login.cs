@@ -1,6 +1,5 @@
-﻿using lms.Domain;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using lms.Data.Repositories;
+using lms.Domain;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -9,11 +8,11 @@ using System.Text;
 
 namespace lms.UseCases.Common;
 
-public class Login(IConfiguration _configuration) : ILogin
+public class Login(IUserRepository _userRepository, IConfiguration _configuration) : ILogin
 {
-    public List<Role> Execute(string username, string password)
+    public async Task<List<Role>> Execute(string username, string password)
     {
-        return IsValidUserCredentials(username, password);
+        return await IsValidUserCredentials(username, password);
         //if (IsValidUserCredentials(username, password))
         //{
         //    //var token = GenerateJwtToken(password);
@@ -80,23 +79,22 @@ public class Login(IConfiguration _configuration) : ILogin
         return tokenHandler.WriteToken(token);
     }
 
-    private List<Role> IsValidUserCredentials(string username, string password)
+    private async Task<List<Role>> IsValidUserCredentials(string username, string password)
     {
-        var users = new List<UserModel>
-        {
-            new(Guid.NewGuid(), "Admin", "", "123", [Role.Administrator], DateTime.Now, DateTime.Now),
-            new(Guid.NewGuid(), "Teacher", "", "123", [Role.Teacher], DateTime.Now, DateTime.Now),
-            new(Guid.NewGuid(), "Student", "", "123", [Role.Student], DateTime.Now, DateTime.Now),
-        };
+        var user = await _userRepository.GetAsync(u => u.Email == username);
 
-        return users.FirstOrDefault(u => u.FullName.Equals(username, StringComparison.OrdinalIgnoreCase) && u.HashedPassword == password).Roles ?? [];
-        //return users.Exists(u => u.Name.Equals(username, StringComparison.OrdinalIgnoreCase) && u.HashedPassword == password);
+        return user is not null && IsPasswordValid(password, user) ? user.Roles : [];
+    }
+
+    private static bool IsPasswordValid(string password, UserModel user)
+    {
+        return user.HashedPassword == password;
     }
 }
 
 public interface ILogin
 {
-    List<Role> Execute(string username, string password);
+    Task<List<Role>> Execute(string username, string password);
     Task<User> GetAuthenticatedUserAsync();
 }
 

@@ -20,6 +20,29 @@ public static class SeedData
 
         context.Courses.Add(new CourseModel { Id = Guid.Parse("68B51F73-C12A-44F5-AD97-E6524007DFC3"), Name = "Seminários II", Description = "Turma 123" });
         context.StudentCourses.Add(new() { CourseId = Guid.Parse("68B51F73-C12A-44F5-AD97-E6524007DFC9"), Status = "ativo"});
+
+        context.Users.Add(new UserModel
+        {
+            Id = Guid.NewGuid(),
+            FullName = "John Doe",
+            Email = "adm@example.com",
+            Identity = "1230904123",
+            Phone = "1234567890",
+            HashedPassword = "1234",
+            BirthDate = new DateOnly(2000, 1, 1),
+            Roles = [Role.Administrator],
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
+            Address = new AddressModel
+            {
+                Street = "Main Street",
+                City = "Springfield",
+                State = "IL",
+                ZipCode = "62704",
+                Country = "Brasil"
+            }
+        });
+
         context.SaveChanges();
     }
 

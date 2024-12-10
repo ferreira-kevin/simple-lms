@@ -1,4 +1,15 @@
-﻿.academic-record-container {
+﻿.title-container {
+    padding: 16px;
+    background-color: #f5f5f5; /* Cor de fundo sutil para destacar a área do título */
+    border-radius: 8px; /* Cantos arredondados para um design mais moderno */
+}
+
+.title {
+    font-weight: bold; /* Deixa o texto mais destacado */
+    color: #333; /* Cor de texto mais escura para contraste */
+}
+
+.academic-record-container {
     margin: 2rem 0;
     padding: 1rem;
     border: 1px solid #ddd;
@@ -6,113 +17,44 @@
     background-color: #f9f9f9;
 }
 
-.academic-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1rem;
-}
-
-    .academic-table th,
-    .academic-table td {
-        border: 1px solid #ddd;
-        padding: 0.75rem 1rem;
-        text-align: left;
-        font-size: 1rem;
-    }
-
-    .academic-table th {
-        background-color: #4CAF50;
-        color: white;
-        font-weight: bold;
-    }
-
-    .academic-table tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-
-    .academic-table tr:hover {
-        background-color: #ddd;
-    }
-
 .edit-btn {
-    background-color: #4d79ff;
-    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #007bff; /* Azul profissional */
+    color: white; /* Texto branco para contraste */
+    padding: 0.5rem 1.25rem; /* Espaçamento interno */
+    font-size: 1rem; /* Tamanho da fonte legível */
+    font-weight: 500; /* Peso médio para um toque profissional */
     border: none;
-    border-radius: 4px;
-    padding: 0.4rem 0.6rem;
+    border-radius: 5px; /* Bordas arredondadas */
+    text-decoration: none; /* Remove sublinhado padrão */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transição suave */
     cursor: pointer;
-    font-size: 0.9rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra leve para destacar o botão */
 }
-
-    .edit-btn i {
-        margin-right: 5px;
-    }
 
     .edit-btn:hover {
-        background-color: #3650cc;
+        background-color: #0056b3; /* Cor mais escura no hover */
+        box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15); /* Aumenta a sombra no hover */
     }
-/*.bi-pencil-square {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-pencil-square' viewBox='0 0 16 16'%3E%3Cpath d='M15.502 1.94a.5.5 0 0 1 0 .706l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.651l2-5a.5.5 0 0 1 .11-.168l10-10a.5.5 0 0 1 .706 0l3 3zm-3.11-.44L11 2.378 13.622 5 14.5 4.121 12.892 2.5zm-10.65 10.6l-.85 2.15 2.15-.85 7.292-7.292-1.292-1.292L2.742 13.1zM1 13.5V2a1 1 0 0 1 1-1h9.293l.707.707L9.5 3.707 8.293 2.5H2v11.5H1z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center center;
-    width: 24px;
-    height: 24px;
-    display: inline-block;
-}*/
+
+    .edit-btn:active {
+        background-color: #004494; /* Cor mais escura no clique */
+        box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2); /* Sombra reduzida no clique */
+        transform: translateY(1px); /* Efeito de clique visual */
+    }
+}
+
+.btn {
+    margin-top: 16px;
+}
 
 .tabs-container {
     display: flex;
+    justify-content: flex-start;
+    gap: 0.5rem;
     margin-bottom: 1rem;
+    border-bottom: 2px solid #e0e0e0; /* Linha abaixo para destacar as abas */
 }
-
-.tab-btn {
-    padding: 0.75rem 1.5rem;
-    margin-right: 0.5rem;
-    background-color: #f0f0f0;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px 4px 0 0;
-    transition: background-color 0.3s;
-}
-
-    .tab-btn:hover {
-        background-color: #e0e0e0;
-    }
-
-.active-tab {
-    background-color: #007bff;
-    color: white;
-}
-
-.academic-record-container {
-    border: 1px solid #ddd;
-    padding: 1rem;
-    border-radius: 0 0 4px 4px;
-}
-
-.academic-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-    .academic-table th, .academic-table td {
-        padding: 0.75rem;
-        border-bottom: 1px solid #ddd;
-    }
-
-.edit-btn {
-    background-color: #007bff;
-    color: white;
-    padding: 0.5rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-}
-
-    .edit-btn:hover {
-        background-color: #0056b3;
-    }
 

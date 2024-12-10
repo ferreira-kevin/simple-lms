@@ -18,27 +18,6 @@ public class StudentService : IStudentService
         // Busca alunos no repositório usando o nome como filtro
         //return await _studentRepository.GetStudentsByNameAsync(name);
         return [
-            new() {
-                //FullName = "Aluno 1",
-                Id = Guid.NewGuid(),
-                User = new(){
-                    FullName = "Aluno 1"
-                }
-            },
-             new() {
-                //FullName = "Aluno 2",
-                Id = Guid.NewGuid(),
-                User = new(){
-                    FullName = "Aluno 2"
-                }
-            },
-             new() {
-                //FullName = "Aluno 3",
-                Id = Guid.NewGuid(),
-                User = new(){
-                    FullName = "Aluno 3"
-                }
-            }
             ];
     }
 
@@ -74,10 +53,6 @@ public class StudentService : IStudentService
         var course = await _courseRepository.GetByIdAsync(courseId);
         //return course?.EnrolledStudents.ToList() ?? new List<StudentModel>();
         return [
-             new() {
-                //FullName = "Aluno 1",
-                Id = Guid.NewGuid()
-            }
             ];
     }
 }

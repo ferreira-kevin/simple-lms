@@ -17,6 +17,7 @@ public class LmsDbContext : DbContext
 
     public DbSet<GradingModel> Grades { get; set; }
 
+    public DbSet<TeacherModel> Teachers { get; set; }
     public DbSet<StudentModel> Students { get; set; }
     public DbSet<UserModel> Users { get; set; }
     public DbSet<StudentCourseModel> StudentCourses { get; set; }
@@ -88,16 +89,32 @@ public class LmsDbContext : DbContext
             //entity.ToTable("Courses");
         });
 
-        modelBuilder.Entity<StudentModel>(entity =>
+        modelBuilder.Entity<StudentModel>()
+            .HasOne(s => s.User)
+            .WithOne(u => u.Student)
+            .HasForeignKey<StudentModel>(s => s.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+
+
+        //modelBuilder.Entity<StudentModel>(entity =>
+        //{
+        //    entity.HasKey(s => s.Id);
+        //    entity.Property(s => s.EnrollmentDate)
+        //          .IsRequired();
+
+        //    entity.HasOne(s => s.User)
+        //          .WithOne()
+        //          .HasForeignKey<StudentModel>(s => s.Id)
+        //          .IsRequired();
+        //});
+
+        modelBuilder.Entity<TeacherModel>(entity =>
         {
             entity.HasKey(s => s.Id);
-            entity.Property(s => s.EnrollmentDate)
-                  .IsRequired();
 
-            // Configuração do relacionamento entre StudentModel e UserModel
             entity.HasOne(s => s.User)
                   .WithOne()
-                  .HasForeignKey<StudentModel>(s => s.Id) // Assume que StudentModel.Id é também a chave estrangeira para UserModel
+                  .HasForeignKey<TeacherModel>(s => s.Id)
                   .IsRequired();
         });
 

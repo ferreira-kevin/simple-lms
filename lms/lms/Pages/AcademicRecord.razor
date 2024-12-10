@@ -1,94 +1,106 @@
 ﻿@page "/academic-record"
 @inject NavigationManager Navigation
+@inject IListStudents listStudents
+@using MudBlazor;
+@using lms.Domain
+@using lms.UseCases.Manager.AcademicRecord
 
 <PageTitle>Registro Acadêmico</PageTitle>
 
-<div>
-    <h1>Registro Acadêmico</h1>
-</div>
+<MudPaper Elevation="1" Class="title-container">
+    <MudText Typo="Typo.h5" Align="Align.Center" Class="title">
+        Registro Acadêmico
+    </MudText>
+</MudPaper>
 
-<div class="tabs-container">
-    <button @onclick="() => SelectTab(studentTab)" class="@GetTabClass(studentTab)">Alunos</button>
-    <button @onclick="() => SelectTab(teacherTab)" class="@GetTabClass(teacherTab)">Professores</button>
-</div>
+<MudTabs @bind-ActivePanelIndex="activeTab"
+         Centered="true"
+         ScrollButtons="ScrollButtons.Auto"
+         Class="tabs-container">
 
-<div>
-    @if (activeTab == "students")
-    {
-        <div>
-            <a class="edit-btn" href="/academic-record/new"> Novo Aluno</a>
+    <MudTabPanel Text="Alunos">
+
+        <div class="d-flex justify-content-center justify-content-md-start btn">
+            <MudButton Class="edit-btn"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.AddCircle"
+                       Href="/academic-record/new"
+                       FullWidth="true">
+                Novo Aluno
+            </MudButton>
+        </div>
+        <MudTable Items="students" Hover="true" Bordered="true" Striped="true" Dense="true" Class="academic-record-container">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6">Registros Acadêmicos</MudText>
+            </ToolBarContent>
+
+            <HeaderContent>
+                <MudTh>Nome</MudTh>
+                <MudTh>RM</MudTh>
+                <MudTh>Ano de Ingresso</MudTh>
+                <MudTh>Status</MudTh>
+                <MudTh>Turma</MudTh>
+                <MudTh>Ações</MudTh>
+            </HeaderContent>
+
+            <RowTemplate>
+                <MudTd>@context.User.FullName</MudTd>
+                <MudTd>@context.EnrollmentNumber</MudTd>
+                <MudTd>@context.EnrollmentDate</MudTd>
+                <MudTd>Matriculado</MudTd>
+                <MudTd>ClassName</MudTd>
+                <MudTd>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" StartIcon="@Icons.Material.Filled.Edit" @onclick="() => EditRecord(context.Id)">
+                        Editar
+                    </MudButton>
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+
+    </MudTabPanel>
+    <MudTabPanel Text="Professores">
+        <div class="d-flex justify-content-center justify-content-md-start btn">
+            <MudButton Class="edit-btn"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.AddCircle"
+                       Href="/academic-record/new-teacher"
+                       FullWidth="true">
+                Novo Professor
+            </MudButton>
         </div>
 
-        <div class="academic-record-container">
-            <table class="academic-table">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>RM</th>
-                        <th>Ano de Ingresso</th>
-                        <th>Status</th>
-                        <th>Turma</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var record in academicRecords)
-                    {
-                        <tr>
-                            <td>@record.Name</td>
-                            <td>@record.RM</td>
-                            <td>@record.EnrollmentYear</td>
-                            <td>@record.Status</td>
-                            <td>@record.ClassName</td>
-                            <td>
-                                <button class="edit-btn" @onclick="() => EditRecord(record.Id)">
-                                    <i class="bi-pencil-square"></i> Editar
-                                </button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    }
-    else if (activeTab == "teachers")
-    {
-        <div>
-            <a class="edit-btn" href="/academic-record/new-teacher"> Novo Professor</a>
-        </div>
+       <MudTable Items="teacherRecords" Hover="true" Bordered="true" Striped="true" Dense="true" Class="academic-record-container">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6">Registros de Professores</MudText>
+            </ToolBarContent>
 
-        <div class="academic-record-container">
-            <table class="academic-table">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Status</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var teacher in teacherRecords)
-                    {
-                        <tr>
-                            <td>@teacher.Name</td>
-                            <td>@teacher.Status</td>
-                            <td>
-                                <button class="edit-btn" @onclick="() => EditTeacher(teacher.Id)">
-                                    <i class="bi-pencil-square"></i> Editar
-                                </button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    }
-</div>
+            <HeaderContent>
+                <MudTh>Nome</MudTh>
+                <MudTh>Status</MudTh>
+                <MudTh>Ações</MudTh>
+            </HeaderContent>
+
+            <RowTemplate>
+                <MudTd>@context.Name</MudTd>
+                <MudTd>@context.Status</MudTd>
+                <MudTd>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" StartIcon="@Icons.Material.Filled.Edit" @onclick="() => EditTeacher(context.Id)">
+                        Editar
+                    </MudButton>
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+
+    </MudTabPanel>
+
+</MudTabs>
 
 @code {
-    private const string studentTab = "students";
-    private const string teacherTab = "teachers";
-    private string activeTab = studentTab; // Aba ativa por padrão
+    private IEnumerable<StudentModel> students = [];
+
+    private int activeTab = 0;
     private List<AcademicRecordModel> academicRecords = new List<AcademicRecordModel>
     {
         new AcademicRecordModel { Id = 1, Name = "Ana Silva", RM = "12345", EnrollmentYear = 2020, Status = "Ativo", ClassName = "Turma A" },
@@ -103,16 +115,14 @@
         new TeacherRecordModel { Id = 3, Name = "João Souza", RM = "77654", HiringYear = 2020, Status = "Inativo", Department = "Português" }
     };
 
-    private void SelectTab(string tabName)
+    protected override async Task OnInitializedAsync()
     {
-        activeTab = tabName;
+        students = await listStudents.Execute();
     }
 
-    private string GetTabClass(string tabName) => activeTab == tabName ? "active-tab" : "";
-
-    private void EditRecord(int id)
+    private void EditRecord(Guid id)
     {
-        var recordToEdit = academicRecords.FirstOrDefault(r => r.Id == id);
+        var recordToEdit = students.FirstOrDefault(r => r.Id == id);
         if (recordToEdit != null)
         {
             Navigation.NavigateTo($"/academic-record/{id}/edit");

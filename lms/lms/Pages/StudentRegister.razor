@@ -27,32 +27,32 @@
 } *@
 
 @code {
-    private StudentModel student = new()
-    {
-        User = new()
-    };
-    private bool registrationSuccess = false;
+    // private StudentModel student = new()
+    // {
+    //     User = new()
+    // };
+    // private bool registrationSuccess = false;
 
-    private async Task RegisterStudent()
-    {
-        if (!string.IsNullOrWhiteSpace(student.User.FullName) && !string.IsNullOrWhiteSpace(student.User.Email))
-        {
-            try
-            {
-                //TODO
-                // await _studentService.RegisterStudent(student);
-                registrationSuccess = true;
+    // private async Task RegisterStudent()
+    // {
+    //     if (!string.IsNullOrWhiteSpace(student.User.FullName) && !string.IsNullOrWhiteSpace(student.User.Email))
+    //     {
+    //         try
+    //         {
+    //             //TODO
+    //             // await _studentService.RegisterStudent(student);
+    //             registrationSuccess = true;
 
-                // Limpar o formulário após o sucesso do cadastro
-                student = new StudentModel();
-            }
-            catch (Exception ex)
-            {
-                // Lidar com o erro, se necessário
-                Console.WriteLine("Erro ao cadastrar aluno: " + ex.Message);
-            }
-        }
-    }
+    //             // Limpar o formulário após o sucesso do cadastro
+    //             // student = new StudentModel();
+    //         }
+    //         catch (Exception ex)
+    //         {
+    //             // Lidar com o erro, se necessário
+    //             Console.WriteLine("Erro ao cadastrar aluno: " + ex.Message);
+    //         }
+    //     }
+    // }
 
     private void GoBack()
     {

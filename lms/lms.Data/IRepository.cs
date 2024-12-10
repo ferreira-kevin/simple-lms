@@ -1,4 +1,6 @@
-﻿namespace lms.Data;
+﻿using System.Linq.Expressions;
+
+namespace lms.Data;
 
 public interface IRepository<T> where T : class
 {
@@ -7,4 +9,5 @@ public interface IRepository<T> where T : class
     Task AddAsync(T entity);
     Task UpdateAsync(T entity);
     Task DeleteAsync(Guid id);
+    Task<T?> GetAsync(Expression<Func<T, bool>> predicate);
 }

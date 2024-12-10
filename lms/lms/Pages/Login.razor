@@ -44,7 +44,7 @@
 
     private async Task HandleLogin()
     {
-        var roles = _login.Execute(loginModel.Username, loginModel.Password);
+        var roles = await _login.Execute(loginModel.Username, loginModel.Password);
         if (roles.Any())
         {
             var currentUser = AuthService.CurrentUser;
