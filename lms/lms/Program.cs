@@ -4,6 +4,7 @@ using lms.Data.Repositories;
 using lms.Providers;
 using lms.UseCases.Common;
 using lms.UseCases.Manager.AcademicRecord;
+using lms.UseCases.Manager.Class;
 using lms.UseCases.Student;
 using lms.UseCases.Student.Assignment;
 using lms.UseCases.Student.Assignments;
@@ -37,6 +38,7 @@ builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IClassRepository, ClassRepository>();
 
 builder.Services.AddScoped<IFinalizeAssignment, FinalizeAssignment>();
 builder.Services.AddScoped<INextQuestion, NextQuestion>();
@@ -55,6 +57,7 @@ builder.Services.AddScoped<IListTeachers, ListTeachers>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
+builder.Services.AddScoped<IListClasses, ListClasses>();
 
 builder.Services.AddScoped<ILogin, Login>();
 
