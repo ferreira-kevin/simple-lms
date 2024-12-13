@@ -1,0 +1,51 @@
+﻿@page "/classes/new"
+@using lms.Domain
+@using lms.Domain.Enums
+@using lms.UseCases.Manager.Class
+@inject NavigationManager Navigation
+@inject ICreateClass CreateClass
+
+<PageTitle>Nova Turma</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="pa-4">
+    <MudCard>
+        <MudCardHeader>
+            <MudText Typo="Typo.h5">Criar Nova Turma</MudText>
+        </MudCardHeader>
+        <MudCardContent>
+            <EditForm Model="@newClassform" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <MudGrid>
+                    <MudItem xs="12">
+                        <MudTextField T="string" Label="Nome da Turma" @bind-Value="newClassform.Name" Variant="Variant.Text" Required="true" RequiredError="O nome da turma é obrigatório!" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudSelect T="ClassType" Label="Tipo" @bind-Value="newClassform.Type" Variant="Variant.Text" Required="true" RequiredError="O tipo da turma é obrigatório!">
+                            @foreach (var type in Enum.GetValues<ClassType>())
+                            {
+                                <MudSelectItem Value="type">@type.ToString()</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                   @*  <MudItem xs="12">
+                        <MudNumericField T="int" Label="Tipo" @bind-Value="(int)newClassform.Type" Variant="Variant.Text" Required="true" RequiredError="Informe a quantidade de alunos." />
+                    </MudItem> *@
+                </MudGrid>
+            </EditForm>
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Color="Color.Primary" OnClick="HandleValidSubmit">Salvar</MudButton>
+            <MudButton Color="Color.Secondary" OnClick="@(() => Navigation.NavigateTo("/classes"))">Cancelar</MudButton>
+        </MudCardActions>
+    </MudCard>
+</MudContainer>
+
+@code {
+    private ClassModel newClassform = new ClassModel();
+
+    private async Task HandleValidSubmit()
+    {
+        await CreateClass.Execute(newClassform);
+        Navigation.NavigateTo("/classes");
+    }
+}

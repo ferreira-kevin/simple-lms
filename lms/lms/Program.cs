@@ -58,6 +58,7 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IListClasses, ListClasses>();
+builder.Services.AddScoped<ICreateClass, CreateClass>();
 
 builder.Services.AddScoped<ILogin, Login>();
 
